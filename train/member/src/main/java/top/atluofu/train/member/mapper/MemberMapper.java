@@ -1,11 +1,12 @@
 package top.atluofu.train.member.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.atluofu.train.member.domain.Member;
 import top.atluofu.train.member.domain.MemberExample;
 
 import java.util.List;
-
+@Mapper
 public interface MemberMapper {
     long countByExample(MemberExample example);
 

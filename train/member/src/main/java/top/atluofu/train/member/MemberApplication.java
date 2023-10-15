@@ -18,7 +18,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  **/
 @SpringBootApplication
 @ComponentScan("top.atluofu.train")
-@MapperScan("com.atluofu.train.member.mapper")
+@MapperScan("top.atluofu.train.member.mapper")
 public class MemberApplication {
 
     private static final Logger log = LoggerFactory.getLogger(MemberApplication.class);
