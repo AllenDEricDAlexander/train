@@ -1,5 +1,6 @@
 package top.atluofu.train.member;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  **/
 @SpringBootApplication
 @ComponentScan("top.atluofu.train")
+@MapperScan("com.atluofu.train.member.mapper")
 public class MemberApplication {
 
     private static final Logger log = LoggerFactory.getLogger(MemberApplication.class);
