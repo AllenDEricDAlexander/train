@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @ClassName: LogAspect
- * @description: TODO
+ * @description: TODO 日志脱敏
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-14:55
  * @Version: 1.0
@@ -85,7 +85,7 @@ public class LogAspect {
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
-        // 排除字段，敏感字段或太长的字段不显示：身份证、手机号、邮箱、密码等
+        // 排除字段，敏感字段或太长的字段不显示：身份证、手机号、邮箱、密码等 例如 如果对象有这些字段"idCard", "phoneNumber", "email", "password" 放到str数组就行了
         String[] excludeProperties = {};
         PropertyPreFilters filters = new PropertyPreFilters();
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();

@@ -2,7 +2,7 @@ package top.atluofu.train.common.resp;
 
 /**
  * @ClassName: CommonResp
- * @description: TODO
+ * @description: 规范业务码
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-16:57
  * @Version: 1.0

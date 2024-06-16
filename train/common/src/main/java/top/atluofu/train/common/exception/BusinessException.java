@@ -2,7 +2,7 @@ package top.atluofu.train.common.exception;
 
 /**
  * @ClassName: BusinessException
- * @description: TODO
+ * @description: TODO 规范异常码
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-16:49
  * @Version: 1.0

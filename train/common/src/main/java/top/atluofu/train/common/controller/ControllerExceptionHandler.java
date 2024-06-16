@@ -79,7 +79,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseBody
     public CommonResp exceptionHandler(RuntimeException e) {
-        throw e;
+        CommonResp commonResp = new CommonResp();
+        log.error("系统异常：", e);
+        commonResp.setSuccess(false);
+        commonResp.setMessage("系统出现异常，请联系管理员");
+        return commonResp;
     }
 
 }
