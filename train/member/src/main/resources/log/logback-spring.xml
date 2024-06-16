@@ -176,7 +176,7 @@
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
-        <logger name="com.nmys.view" level="debug"/>
+        <logger name="top.atluofu.train" level="debug"/>
     </springProfile>
 
     <root level="info">
