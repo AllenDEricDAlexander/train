@@ -5,6 +5,7 @@
 *.log
 
 train/log/**/*
+train/.mvn/**/*
 
 # BlueJ files
 *.ctxt
