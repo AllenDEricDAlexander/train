@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 
 /**
  * @ClassName: MemberSendCodeReq
- * @description: TODO
+ * @description:
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-17:03
  * @Version: 1.0

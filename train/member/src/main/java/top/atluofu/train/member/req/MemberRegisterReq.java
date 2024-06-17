@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /**
  * @ClassName: MemberRegisterReq
- * @description: TODO
+ * @description:
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-16:45
  * @Version: 1.0
