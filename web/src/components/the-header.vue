@@ -1,22 +1,22 @@
 <template>
   <a-layout-header class="header">
     <div class="logo">
-      <router-link to="/welcome" style="color: white; font-size: 18px">
+      <router-link to="/welcome"
+                   style="color: white; font-size: 18px">
         12306
       </router-link>
     </div>
     <div style="float: right; color: white;">
       您好：{{member.mobile}} &nbsp;&nbsp;
-      <router-link to="/login" style="color: white;">
+      <router-link to="/login"
+                   style="color: white;">
         退出登录
       </router-link>
     </div>
-    <a-menu
-        v-model:selectedKeys="selectedKeys"
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px' }"
-    >
+    <a-menu v-model:selectedKeys="selectedKeys"
+            theme="dark"
+            mode="horizontal"
+            :style="{ lineHeight: '64px' }">
       <a-menu-item key="/welcome">
         <router-link to="/welcome">
           <coffee-outlined /> &nbsp; 欢迎
@@ -52,13 +52,13 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import store from "@/store";
 import router from '@/router'
 
 export default defineComponent({
   name: "the-header-view",
-  setup() {
+  setup () {
     let member = store.state.member;
     const selectedKeys = ref([]);
 
@@ -66,7 +66,7 @@ export default defineComponent({
       console.log('watch', newValue);
       selectedKeys.value = [];
       selectedKeys.value.push(newValue);
-    }, {immediate: true});
+    }, { immediate: true });
     return {
       member,
       selectedKeys

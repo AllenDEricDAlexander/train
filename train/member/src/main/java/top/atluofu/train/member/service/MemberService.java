@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.atluofu.train.common.exception.BusinessException;
 import top.atluofu.train.common.exception.BusinessExceptionEnum;
+import top.atluofu.train.common.util.JwtUtil;
 import top.atluofu.train.common.util.SnowUtil;
 import top.atluofu.train.member.domain.Member;
 import top.atluofu.train.member.domain.MemberExample;
@@ -93,10 +94,10 @@ public class MemberService {
             throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
         }
 
-        MemberLoginResp MemberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
-//        String token = JwtUtil.createToken(MemberLoginResp.getId(), MemberLoginResp.getMobile());
-//        MemberLoginResp.setToken(token);
-        return MemberLoginResp;
+        MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        String token = JwtUtil.createToken(memberLoginResp.getId(), memberLoginResp.getMobile());
+        memberLoginResp.setToken(token);
+        return memberLoginResp;
     }
 
     private Member selectByMobile(String mobile) {

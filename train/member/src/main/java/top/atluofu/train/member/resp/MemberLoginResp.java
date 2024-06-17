@@ -2,7 +2,7 @@ package top.atluofu.train.member.resp;
 
 /**
  * @ClassName: MemberLoginResp
- * @description: TODO
+ * @description: TODO lombok改造
  * @author: 有罗敷的马同学
  * @datetime: 2023Year-10Month-15Day-17:03
  * @Version: 1.0
