@@ -7,7 +7,7 @@
 train/log/**/*
 train/.mvn/**/*
 
-train/web\node_modules/**/*
+
 
 # BlueJ files
 *.ctxt
