@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnumGenerator {
-     static String path = "web/src/assets/js/enums.js";
+    static String path = "web/src/assets/js/enums.js";
 //    static String path = "admin/src/assets/js/enums.js";
 
     public static void main(String[] args) {
@@ -105,6 +105,7 @@ public class EnumGenerator {
 
     /**
      * 写文件
+     *
      * @param stringBuffer
      */
     public static void writeJs(StringBuffer stringBuffer) {
@@ -117,8 +118,7 @@ public class EnumGenerator {
             osw.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 out.close();
             } catch (Exception e) {
