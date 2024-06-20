@@ -1,8 +1,10 @@
 <template>
   <p>
     <a-space>
-      <a-button type="primary" @click="handleQuery()">刷新</a-button>
-      <a-button type="primary" @click="onAdd">新增</a-button>
+      <a-button type="primary"
+                @click="handleQuery()">刷新</a-button>
+      <a-button type="primary"
+                @click="onAdd">新增</a-button>
     </a-space>
   </p>
   <a-table :dataSource="stations"
@@ -13,10 +15,10 @@
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
         <a-space>
-          <a-popconfirm
-              title="删除后不可恢复，确认删除?"
-              @confirm="onDelete(record)"
-              ok-text="确认" cancel-text="取消">
+          <a-popconfirm title="删除后不可恢复，确认删除?"
+                        @confirm="onDelete(record)"
+                        ok-text="确认"
+                        cancel-text="取消">
             <a style="color: red">删除</a>
           </a-popconfirm>
           <a @click="onEdit(record)">编辑</a>
@@ -24,9 +26,14 @@
       </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="车站" @ok="handleOk"
-           ok-text="确认" cancel-text="取消">
-    <a-form :model="station" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+  <a-modal v-model:visible="visible"
+           title="车站"
+           @ok="handleOk"
+           ok-text="确认"
+           cancel-text="取消">
+    <a-form :model="station"
+            :label-col="{span: 4}"
+            :wrapper-col="{ span: 20 }">
       <a-form-item label="站名">
         <a-input v-model:value="station.name" />
       </a-form-item>
@@ -42,12 +49,12 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
-import {notification} from "ant-design-vue";
+import { notification } from "ant-design-vue";
 import axios from "axios";
 
 export default defineComponent({
   name: "station-view",
-  setup() {
+  setup () {
     const visible = ref(false);
     let station = ref({
       id: undefined,
@@ -66,25 +73,25 @@ export default defineComponent({
     });
     let loading = ref(false);
     const columns = [
-    {
-      title: '站名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '站名拼音',
-      dataIndex: 'namePinyin',
-      key: 'namePinyin',
-    },
-    {
-      title: '站名拼音首字母',
-      dataIndex: 'namePy',
-      key: 'namePy',
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation'
-    }
+      {
+        title: '站名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '站名拼音',
+        dataIndex: 'namePinyin',
+        key: 'namePinyin',
+      },
+      {
+        title: '站名拼音首字母',
+        dataIndex: 'namePy',
+        key: 'namePy',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation'
+      }
     ];
 
     const onAdd = () => {
@@ -101,13 +108,13 @@ export default defineComponent({
       axios.delete("/business/admin/station/delete/" + record.id).then((response) => {
         const data = response.data;
         if (data.success) {
-          notification.success({description: "删除成功！"});
+          notification.success({ description: "删除成功！" });
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize,
           });
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
@@ -116,14 +123,14 @@ export default defineComponent({
       axios.post("/business/admin/station/save", station.value).then((response) => {
         let data = response.data;
         if (data.success) {
-          notification.success({description: "保存成功！"});
+          notification.success({ description: "保存成功！" });
           visible.value = false;
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize
           });
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
@@ -150,7 +157,7 @@ export default defineComponent({
           pagination.value.current = param.page;
           pagination.value.total = data.content.total;
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
