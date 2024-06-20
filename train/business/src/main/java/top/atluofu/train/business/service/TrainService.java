@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 import top.atluofu.train.common.resp.PageResp;
 import top.atluofu.train.common.util.SnowUtil;
 import top.atluofu.train.business.domain.Train;
@@ -62,6 +63,20 @@ public class TrainService {
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
+    }
+
+    @Transactional
+    public List<TrainQueryResp> queryAll() {
+        List<Train> trainList = selectAll();
+        // LOG.info("再查一次");
+        // trainList = selectAll();
+        return BeanUtil.copyToList(trainList, TrainQueryResp.class);
+    }
+
+    public List<Train> selectAll() {
+        TrainExample trainExample = new TrainExample();
+        trainExample.setOrderByClause("code asc");
+        return trainMapper.selectByExample(trainExample);
     }
 
     public void delete(Long id) {
