@@ -1,0 +1,7 @@
+#yml配置
+logging:
+  file:
+    path: ./log/${spring.application.name}
+  config: classpath:log/logback-spring.xml
+  level:
+    root: info
