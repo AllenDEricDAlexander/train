@@ -26,6 +26,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author MQa010225
+ */
 @Service
 public class DailyTrainStationService {
 
@@ -83,7 +86,7 @@ public class DailyTrainStationService {
         dailyTrainStationMapper.deleteByPrimaryKey(id);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void genDaily(Date date, String trainCode) {
         LOG.info("生成日期【{}】车次【{}】的车站信息开始", DateUtil.formatDate(date), trainCode);
 

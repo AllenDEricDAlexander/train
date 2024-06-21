@@ -1,19 +1,17 @@
 package top.atluofu.train.business.controller.admin;
 
-import top.atluofu.train.common.context.LoginMemberContext;
-import top.atluofu.train.common.resp.CommonResp;
-import top.atluofu.train.common.resp.PageResp;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import top.atluofu.train.business.req.StationQueryReq;
 import top.atluofu.train.business.req.StationSaveReq;
 import top.atluofu.train.business.resp.StationQueryResp;
 import top.atluofu.train.business.service.StationService;
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import top.atluofu.train.common.resp.CommonResp;
+import top.atluofu.train.common.resp.PageResp;
 
-/**
- * @author MQa010225
- */
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/station")
 public class StationAdminController {
@@ -37,6 +35,12 @@ public class StationAdminController {
     public CommonResp<Object> delete(@PathVariable Long id) {
         stationService.delete(id);
         return new CommonResp<>();
+    }
+
+    @GetMapping("/query-all")
+    public CommonResp<List<StationQueryResp>> queryList() {
+        List<StationQueryResp> list = stationService.queryAll();
+        return new CommonResp<>(list);
     }
 
 }

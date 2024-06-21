@@ -1,15 +1,14 @@
 package top.atluofu.train.business.controller.admin;
 
-import top.atluofu.train.common.context.LoginMemberContext;
-import top.atluofu.train.common.resp.CommonResp;
-import top.atluofu.train.common.resp.PageResp;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import top.atluofu.train.business.req.TrainSeatQueryReq;
 import top.atluofu.train.business.req.TrainSeatSaveReq;
 import top.atluofu.train.business.resp.TrainSeatQueryResp;
 import top.atluofu.train.business.service.TrainSeatService;
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import top.atluofu.train.common.resp.CommonResp;
+import top.atluofu.train.common.resp.PageResp;
 
 @RestController
 @RequestMapping("/admin/train-seat")

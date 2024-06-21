@@ -24,6 +24,9 @@ import top.atluofu.train.common.util.SnowUtil;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author MQa010225
+ */
 @Service
 @Slf4j
 public class DailyTrainService {
@@ -92,6 +95,7 @@ public class DailyTrainService {
 
     /**
      * 生成某日所有车次信息，包括车次、车站、车厢、座位
+     *
      * @param date
      */
     public void genDaily(Date date) {
@@ -106,7 +110,7 @@ public class DailyTrainService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void genDailyTrain(Date date, Train train) {
         log.info("生成日期【{}】车次【{}】的信息开始", DateUtil.formatDate(date), train.getCode());
         // 删除该车次已有的数据
