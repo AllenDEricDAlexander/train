@@ -1,8 +1,15 @@
 <template>
   <p>
     <a-space>
-      <a-button type="primary" @click="handleQuery()">刷新</a-button>
-      <a-button type="primary" @click="onAdd">新增</a-button>
+      <a-date-picker v-model:value="params.date"
+                     valueFormat="YYYY-MM-DD"
+                     placeholder="请选择日期" />
+      <train-select-view v-model="params.trainCode"
+                         width="200px"></train-select-view>
+      <a-button type="primary"
+                @click="handleQuery()">刷新</a-button>
+      <a-button type="primary"
+                @click="onAdd">新增</a-button>
     </a-space>
   </p>
   <a-table :dataSource="dailyTrainCarriages"
@@ -13,17 +20,18 @@
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
         <a-space>
-          <a-popconfirm
-              title="删除后不可恢复，确认删除?"
-              @confirm="onDelete(record)"
-              ok-text="确认" cancel-text="取消">
+          <a-popconfirm title="删除后不可恢复，确认删除?"
+                        @confirm="onDelete(record)"
+                        ok-text="确认"
+                        cancel-text="取消">
             <a style="color: red">删除</a>
           </a-popconfirm>
           <a @click="onEdit(record)">编辑</a>
         </a-space>
       </template>
       <template v-else-if="column.dataIndex === 'seatType'">
-        <span v-for="item in SEAT_TYPE_ARRAY" :key="item.code">
+        <span v-for="item in SEAT_TYPE_ARRAY"
+              :key="item.code">
           <span v-if="item.code === record.seatType">
             {{item.desc}}
           </span>
@@ -31,46 +39,58 @@
       </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="每日车厢" @ok="handleOk"
-           ok-text="确认" cancel-text="取消">
-    <a-form :model="dailyTrainCarriage" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+  <a-modal v-model:visible="visible"
+           title="每日车箱"
+           @ok="handleOk"
+           ok-text="确认"
+           cancel-text="取消">
+    <a-form :model="dailyTrainCarriage"
+            :label-col="{span: 4}"
+            :wrapper-col="{ span: 20 }">
       <a-form-item label="日期">
-        <a-date-picker v-model:value="dailyTrainCarriage.date" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
+        <a-date-picker v-model:value="dailyTrainCarriage.date"
+                       valueFormat="YYYY-MM-DD"
+                       placeholder="请选择日期" />
       </a-form-item>
       <a-form-item label="车次编号">
-        <a-input v-model:value="dailyTrainCarriage.trainCode" />
+        <train-select-view v-model="dailyTrainCarriage.trainCode"
+                           width="200px"></train-select-view>
       </a-form-item>
       <a-form-item label="箱序">
         <a-input v-model:value="dailyTrainCarriage.index" />
       </a-form-item>
       <a-form-item label="座位类型">
         <a-select v-model:value="dailyTrainCarriage.seatType">
-          <a-select-option v-for="item in SEAT_TYPE_ARRAY" :key="item.code" :value="item.code">
+          <a-select-option v-for="item in SEAT_TYPE_ARRAY"
+                           :key="item.code"
+                           :value="item.code">
             {{item.desc}}
           </a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="座位数">
-        <a-input v-model:value="dailyTrainCarriage.seatCount" />
-      </a-form-item>
+      <!--<a-form-item label="座位数">-->
+      <!--  <a-input v-model:value="dailyTrainCarriage.seatCount" />-->
+      <!--</a-form-item>-->
       <a-form-item label="排数">
         <a-input v-model:value="dailyTrainCarriage.rowCount" />
       </a-form-item>
-      <a-form-item label="列数">
-        <a-input v-model:value="dailyTrainCarriage.colCount" />
-      </a-form-item>
+      <!--<a-form-item label="列数">-->
+      <!--  <a-input v-model:value="dailyTrainCarriage.colCount" />-->
+      <!--</a-form-item>-->
     </a-form>
   </a-modal>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
-import {notification} from "ant-design-vue";
+import { notification } from "ant-design-vue";
 import axios from "axios";
+import TrainSelectView from "@/components/train-select";
 
 export default defineComponent({
   name: "daily-train-carriage-view",
-  setup() {
+  components: { TrainSelectView },
+  setup () {
     const SEAT_TYPE_ARRAY = window.SEAT_TYPE_ARRAY;
     const visible = ref(false);
     let dailyTrainCarriage = ref({
@@ -93,46 +113,50 @@ export default defineComponent({
       pageSize: 10,
     });
     let loading = ref(false);
+    let params = ref({
+      trainCode: null,
+      date: null
+    });
     const columns = [
-    {
-      title: '日期',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: '车次编号',
-      dataIndex: 'trainCode',
-      key: 'trainCode',
-    },
-    {
-      title: '箱序',
-      dataIndex: 'index',
-      key: 'index',
-    },
-    {
-      title: '座位类型',
-      dataIndex: 'seatType',
-      key: 'seatType',
-    },
-    {
-      title: '座位数',
-      dataIndex: 'seatCount',
-      key: 'seatCount',
-    },
-    {
-      title: '排数',
-      dataIndex: 'rowCount',
-      key: 'rowCount',
-    },
-    {
-      title: '列数',
-      dataIndex: 'colCount',
-      key: 'colCount',
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation'
-    }
+      {
+        title: '日期',
+        dataIndex: 'date',
+        key: 'date',
+      },
+      {
+        title: '车次编号',
+        dataIndex: 'trainCode',
+        key: 'trainCode',
+      },
+      {
+        title: '箱序',
+        dataIndex: 'index',
+        key: 'index',
+      },
+      {
+        title: '座位类型',
+        dataIndex: 'seatType',
+        key: 'seatType',
+      },
+      {
+        title: '座位数',
+        dataIndex: 'seatCount',
+        key: 'seatCount',
+      },
+      {
+        title: '排数',
+        dataIndex: 'rowCount',
+        key: 'rowCount',
+      },
+      {
+        title: '列数',
+        dataIndex: 'colCount',
+        key: 'colCount',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation'
+      }
     ];
 
     const onAdd = () => {
@@ -149,13 +173,13 @@ export default defineComponent({
       axios.delete("/business/admin/daily-train-carriage/delete/" + record.id).then((response) => {
         const data = response.data;
         if (data.success) {
-          notification.success({description: "删除成功！"});
+          notification.success({ description: "删除成功！" });
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize,
           });
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
@@ -164,14 +188,14 @@ export default defineComponent({
       axios.post("/business/admin/daily-train-carriage/save", dailyTrainCarriage.value).then((response) => {
         let data = response.data;
         if (data.success) {
-          notification.success({description: "保存成功！"});
+          notification.success({ description: "保存成功！" });
           visible.value = false;
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize
           });
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
@@ -187,7 +211,9 @@ export default defineComponent({
       axios.get("/business/admin/daily-train-carriage/query-list", {
         params: {
           page: param.page,
-          size: param.size
+          size: param.size,
+          trainCode: params.value.trainCode,
+          date: params.value.date
         }
       }).then((response) => {
         loading.value = false;
@@ -198,17 +224,16 @@ export default defineComponent({
           pagination.value.current = param.page;
           pagination.value.total = data.content.total;
         } else {
-          notification.error({description: data.message});
+          notification.error({ description: data.message });
         }
       });
     };
 
-    const handleTableChange = (page) => {
-      // console.log("看看自带的分页参数都有啥：" + JSON.stringify(page));
-      pagination.value.pageSize = page.pageSize;
+    const handleTableChange = (pagination) => {
+      // console.log("看看自带的分页参数都有啥：" + pagination);
       handleQuery({
-        page: page.current,
-        size: page.pageSize
+        page: pagination.current,
+        size: pagination.pageSize
       });
     };
 
@@ -232,7 +257,8 @@ export default defineComponent({
       onAdd,
       handleOk,
       onEdit,
-      onDelete
+      onDelete,
+      params
     };
   },
 });
