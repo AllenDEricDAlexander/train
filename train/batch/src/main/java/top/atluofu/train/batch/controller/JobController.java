@@ -1,11 +1,10 @@
 package top.atluofu.train.batch.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.impl.triggers.CronTriggerImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +21,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/job")
+@Slf4j
 public class JobController {
 
-    private static Logger LOG = LoggerFactory.getLogger(JobController.class);
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -33,7 +32,7 @@ public class JobController {
     public CommonResp<Object> run(@RequestBody CronJobReq cronJobReq) throws SchedulerException {
         String jobClassName = cronJobReq.getName();
         String jobGroupName = cronJobReq.getGroup();
-        LOG.info("手动执行任务开始：{}, {}", jobClassName, jobGroupName);
+        log.info("手动执行任务开始：{}, {}", jobClassName, jobGroupName);
         schedulerFactoryBean.getScheduler().triggerJob(JobKey.jobKey(jobClassName, jobGroupName));
         return new CommonResp<>();
     }
@@ -44,7 +43,7 @@ public class JobController {
         String jobGroupName = cronJobReq.getGroup();
         String cronExpression = cronJobReq.getCronExpression();
         String description = cronJobReq.getDescription();
-        LOG.info("创建定时任务开始：{}，{}，{}，{}", jobClassName, jobGroupName, cronExpression, description);
+        log.info("创建定时任务开始：{}，{}，{}，{}", jobClassName, jobGroupName, cronExpression, description);
         CommonResp commonResp = new CommonResp();
 
         try {
@@ -66,15 +65,15 @@ public class JobController {
             sched.scheduleJob(jobDetail, trigger);
 
         } catch (SchedulerException e) {
-            LOG.error("创建定时任务失败:" + e);
+            log.error("创建定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("创建定时任务失败:调度异常");
         } catch (ClassNotFoundException e) {
-            LOG.error("创建定时任务失败:" + e);
+            log.error("创建定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("创建定时任务失败：任务类不存在");
         }
-        LOG.info("创建定时任务结束：{}", commonResp);
+        log.info("创建定时任务结束：{}", commonResp);
         return commonResp;
     }
 
@@ -82,17 +81,17 @@ public class JobController {
     public CommonResp pause(@RequestBody CronJobReq cronJobReq) {
         String jobClassName = cronJobReq.getName();
         String jobGroupName = cronJobReq.getGroup();
-        LOG.info("暂停定时任务开始：{}，{}", jobClassName, jobGroupName);
+        log.info("暂停定时任务开始：{}，{}", jobClassName, jobGroupName);
         CommonResp commonResp = new CommonResp();
         try {
             Scheduler sched = schedulerFactoryBean.getScheduler();
             sched.pauseJob(JobKey.jobKey(jobClassName, jobGroupName));
         } catch (SchedulerException e) {
-            LOG.error("暂停定时任务失败:" + e);
+            log.error("暂停定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("暂停定时任务失败:调度异常");
         }
-        LOG.info("暂停定时任务结束：{}", commonResp);
+        log.info("暂停定时任务结束：{}", commonResp);
         return commonResp;
     }
 
@@ -100,17 +99,17 @@ public class JobController {
     public CommonResp resume(@RequestBody CronJobReq cronJobReq) {
         String jobClassName = cronJobReq.getName();
         String jobGroupName = cronJobReq.getGroup();
-        LOG.info("重启定时任务开始：{}，{}", jobClassName, jobGroupName);
+        log.info("重启定时任务开始：{}，{}", jobClassName, jobGroupName);
         CommonResp commonResp = new CommonResp();
         try {
             Scheduler sched = schedulerFactoryBean.getScheduler();
             sched.resumeJob(JobKey.jobKey(jobClassName, jobGroupName));
         } catch (SchedulerException e) {
-            LOG.error("重启定时任务失败:" + e);
+            log.error("重启定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("重启定时任务失败:调度异常");
         }
-        LOG.info("重启定时任务结束：{}", commonResp);
+        log.info("重启定时任务结束：{}", commonResp);
         return commonResp;
     }
 
@@ -120,7 +119,7 @@ public class JobController {
         String jobGroupName = cronJobReq.getGroup();
         String cronExpression = cronJobReq.getCronExpression();
         String description = cronJobReq.getDescription();
-        LOG.info("更新定时任务开始：{}，{}，{}，{}", jobClassName, jobGroupName, cronExpression, description);
+        log.info("更新定时任务开始：{}，{}，{}，{}", jobClassName, jobGroupName, cronExpression, description);
         CommonResp commonResp = new CommonResp();
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -137,11 +136,11 @@ public class JobController {
             // 按新的trigger重新设置job执行
             scheduler.rescheduleJob(triggerKey, trigger);
         } catch (Exception e) {
-            LOG.error("更新定时任务失败:" + e);
+            log.error("更新定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("更新定时任务失败:调度异常");
         }
-        LOG.info("更新定时任务结束：{}", commonResp);
+        log.info("更新定时任务结束：{}", commonResp);
         return commonResp;
     }
 
@@ -149,7 +148,7 @@ public class JobController {
     public CommonResp delete(@RequestBody CronJobReq cronJobReq) {
         String jobClassName = cronJobReq.getName();
         String jobGroupName = cronJobReq.getGroup();
-        LOG.info("删除定时任务开始：{}，{}", jobClassName, jobGroupName);
+        log.info("删除定时任务开始：{}，{}", jobClassName, jobGroupName);
         CommonResp commonResp = new CommonResp();
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -157,17 +156,17 @@ public class JobController {
             scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName, jobGroupName));
             scheduler.deleteJob(JobKey.jobKey(jobClassName, jobGroupName));
         } catch (SchedulerException e) {
-            LOG.error("删除定时任务失败:" + e);
+            log.error("删除定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("删除定时任务失败:调度异常");
         }
-        LOG.info("删除定时任务结束：{}", commonResp);
+        log.info("删除定时任务结束：{}", commonResp);
         return commonResp;
     }
 
     @RequestMapping(value="/query")
     public CommonResp query() {
-        LOG.info("查看所有定时任务开始");
+        log.info("查看所有定时任务开始");
         CommonResp commonResp = new CommonResp();
         List<CronJobResp> cronJobDtoList = new ArrayList();
         try {
@@ -193,12 +192,12 @@ public class JobController {
 
             }
         } catch (SchedulerException e) {
-            LOG.error("查看定时任务失败:" + e);
+            log.error("查看定时任务失败:" + e);
             commonResp.setSuccess(false);
             commonResp.setMessage("查看定时任务失败:调度异常");
         }
         commonResp.setContent(cronJobDtoList);
-        LOG.info("查看定时任务结束：{}", commonResp);
+        log.info("查看定时任务结束：{}", commonResp);
         return commonResp;
     }
 
