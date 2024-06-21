@@ -51,11 +51,12 @@ public class TrainSeatService {
 
     public PageResp<TrainSeatQueryResp> queryList(TrainSeatQueryReq req) {
         TrainSeatExample trainSeatExample = new TrainSeatExample();
-        trainSeatExample.setOrderByClause("id desc");
+        trainSeatExample.setOrderByClause("train_code asc, carriage_index asc, carriage_seat_index asc");
         TrainSeatExample.Criteria criteria = trainSeatExample.createCriteria();
         if (ObjectUtil.isNotEmpty(req.getTrainCode())) {
             criteria.andTrainCodeEqualTo(req.getTrainCode());
         }
+
         LOG.info("查询页码：{}", req.getPage());
         LOG.info("每页条数：{}", req.getSize());
         PageHelper.startPage(req.getPage(), req.getSize());
@@ -71,6 +72,10 @@ public class TrainSeatService {
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
+    }
+
+    public void delete(Long id) {
+        trainSeatMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -118,7 +123,11 @@ public class TrainSeatService {
         }
     }
 
-    public void delete(Long id) {
-        trainSeatMapper.deleteByPrimaryKey(id);
+    public List<TrainSeat> selectByTrainCode(String trainCode) {
+        TrainSeatExample trainSeatExample = new TrainSeatExample();
+        trainSeatExample.setOrderByClause("`id` asc");
+        TrainSeatExample.Criteria criteria = trainSeatExample.createCriteria();
+        criteria.andTrainCodeEqualTo(trainCode);
+        return trainSeatMapper.selectByExample(trainSeatExample);
     }
 }
