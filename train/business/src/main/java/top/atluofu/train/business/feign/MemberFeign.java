@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import top.atluofu.train.common.req.MemberTicketReq;
 import top.atluofu.train.common.resp.CommonResp;
 
-// @FeignClient("member")
-@FeignClient(name = "member", url = "http://127.0.0.1:8001")
+@FeignClient("member")
 public interface MemberFeign {
 
     @GetMapping("/member/feign/ticket/save")

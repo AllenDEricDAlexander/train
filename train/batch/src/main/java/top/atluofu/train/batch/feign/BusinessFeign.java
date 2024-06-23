@@ -9,8 +9,7 @@ import top.atluofu.train.common.resp.CommonResp;
 
 import java.util.Date;
 
-//@FeignClient(value = "business", fallback = BusinessFeignFallback.class)
- @FeignClient(name = "business", url = "http://127.0.0.1:8082/")
+@FeignClient(value = "business", fallback = BusinessFeignFallback.class)
 public interface BusinessFeign {
 
     @GetMapping("/business/demo/hello")
