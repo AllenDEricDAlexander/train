@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -18,6 +19,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @Return void
  **/
 @SpringBootApplication
+@EnableDiscoveryClient
 @ComponentScan("top.atluofu.train")
 @MapperScan("top.atluofu.train.member.mapper")
 public class MemberApplication {

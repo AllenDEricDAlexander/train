@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -16,6 +18,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
  */
 
 @SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients("top.atluofu.train.business.feign")
 @MapperScan("top.atluofu.train.business.mapper")
 @ComponentScan("top.atluofu.train")
 @Slf4j
