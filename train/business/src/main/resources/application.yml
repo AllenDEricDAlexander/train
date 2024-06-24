@@ -1,3 +1,28 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /business
+spring:
+  application:
+    name: business
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost/train_business?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: MQa12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      namespace: train
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+
 #yml配置
 logging:
   file:
@@ -5,3 +30,8 @@ logging:
   config: classpath:log/logback-spring.xml
   level:
     root: info
+    com:
+      atluofu:
+        train:
+          member:
+            mapper: trace

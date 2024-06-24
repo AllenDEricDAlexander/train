@@ -1,3 +1,26 @@
+server:
+  port: 8083
+  servlet:
+    context-path: /batch
+spring:
+  application:
+    name: batch
+  datasource:
+    url: jdbc:mysql://localhost/train_batch?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: MQa12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      namespace: train
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+
 #yml配置
 logging:
   file:
@@ -5,3 +28,8 @@ logging:
   config: classpath:log/logback-spring.xml
   level:
     root: info
+    com:
+      atluofu:
+        train:
+          member:
+            mapper: trace
